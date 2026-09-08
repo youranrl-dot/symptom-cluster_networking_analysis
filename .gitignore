@@ -1,0 +1,16 @@
+# Data files (never commit patient-level or MIMIC-derived data here)
+*.csv
+*.xlsx
+*.xls
+data/
+output/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# OS
+.DS_Store
+Thumbs.db
