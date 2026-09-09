@@ -137,10 +137,21 @@ palette <- c("#F28E8E", "#8EC6F2", "#9ED9A0", "#D6B8F0", "#F2D98E")
 mem <- as.integer(membership(louvain_main)[V(g_main)$name])
 node_colors <- palette[(mem - 1) %% length(palette) + 1]
 
-## Generic labels -- see the note in Section 5. Re-label these by hand once
-## you've looked at Section 12's symptom-composition comparison to Gemini.
+## Labels confirmed against the actual Claude-extraction cluster composition
+## (verified run on N=1,496): cluster 1 = the Systemic-like group (also
+## absorbs dizziness, problems_with_urination, sweats, feeling_drowsy vs.
+## Gemini's narrower Systemic cluster), cluster 2 = Gastrointestinal
+## (identical 7-symptom composition to Gemini), cluster 3 = CRC
+## Disease-Specific (4 symptoms, a subset of Gemini's 6). If you change the
+## input data these numeric IDs can shift -- check cluster_membership above
+## against this mapping before trusting the legend.
+cluster_names <- c("1" = "Cluster 1 (Systemic)",
+                    "2" = "Cluster 2 (Gastrointestinal)",
+                    "3" = "Cluster 3 (CRC Disease-Specific)")
 n_clusters <- sort(unique(mem))
-legend_labels <- paste("Cluster", n_clusters)
+legend_labels <- ifelse(as.character(n_clusters) %in% names(cluster_names),
+                         cluster_names[as.character(n_clusters)],
+                         paste("Cluster", n_clusters))
 legend_colors <- palette[(n_clusters - 1) %% length(palette) + 1]
 
 set.seed(42)
